@@ -14,7 +14,7 @@ let food,
 const size = canvas.width / 10
 
 function createPlayer() {
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 4; i++) {
     player.push(
       new Block({
         position: {
@@ -56,22 +56,44 @@ start = setInterval(() => {
   player[0].direction = direction
 
   player.forEach((block) => {
-    switch (block.direction) {
-      case 'top':
-        block.position.y -= 50
-        break
-      case 'down':
-        block.position.y += 50
-        break
-      case 'right':
-        block.position.x += 50
-        break
-      case 'left':
-        block.position.x -= 50
-        break
+    if (block.position.x >= canvas.width) {
+      block.position.x = 0
+    } else if (block.position.x < 0) {
+      block.position.x = canvas.width - size
+    } else if (block.position.y < 0) {
+      block.position.y = canvas.height - size
+    } else if (block.position.y >= canvas.height) {
+      block.position.y = 0
+    } else {
+      switch (block.direction) {
+        case 'top':
+          block.position.y -= 50
+          break
+        case 'down':
+          block.position.y += 50
+          break
+        case 'right':
+          block.position.x += 50
+          break
+        case 'left':
+          block.position.x -= 50
+          break
+      }
     }
+
     block.draw()
   })
+
+  for (let i = 0; i < player.length; i++) {
+    for (let y = i + 1; y < player.length; y++) {
+      if (
+        player[i].position.x === player[y].position.x &&
+        player[i].position.y === player[y].position.y
+      ) {
+        resetGame()
+      }
+    }
+  }
 
   // food.draw()
 
@@ -79,19 +101,11 @@ start = setInterval(() => {
   ix++
 }, 200)
 
-function addBlock(last) {
-  playerSize += 1
-  playerBlocks.push(
-    new Block({
-      position: {
-        x: playerBlocks[last].position.x - size,
-        y: playerBlocks[last].position.y,
-      },
-      direction,
-      color: 'green',
-    })
-  )
+function resetGame() {
+  console.log('resetGame')
 }
+
+// DO NAPRAWIENIA -- JAK KLIKNIESZ SZYBKO I INTERVAL SIE NIE ZROBI TO MOZNA NADAL SIE COFAC
 
 window.addEventListener('keydown', (e) => {
   switch (e.key) {
