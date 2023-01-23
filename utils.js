@@ -1,3 +1,5 @@
+import { Block } from './class.js'
+
 const canvas = document.querySelector('canvas')
 const c = canvas.getContext('2d')
 
@@ -19,8 +21,4 @@ export function drawGrid() {
     c.lineTo(canvas.width, i * 50)
     c.stroke()
   }
-}
-
-export function createPlayer() {
-  playerBlocks.push(new Block())
 }
