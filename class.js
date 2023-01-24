@@ -8,8 +8,9 @@ export class Block {
   constructor({ position, direction = '', color, imageSrc = '' }) {
     this.position = position
     this.direction = direction
+    this.imageSrc = imageSrc
     this.image = new Image()
-    this.image.src = imageSrc
+    this.image.src = this.imageSrc
     this.color = color
   }
 

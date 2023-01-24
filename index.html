@@ -4,9 +4,70 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Snake</title>
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        color: whitesmoke;
+      }
+
+      canvas {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+      main {
+        z-index: 5;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        padding: 2rem;
+        background-color: yellowgreen;
+        border-radius: 5px;
+        text-align: center;
+        transition: all 0.4s ease;
+      }
+
+      h1 {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      h3 {
+        margin-top: 10px;
+        font-size: 1.5rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      button {
+        color: white;
+        background-color: black;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        padding: 0.5rem 1rem;
+      }
+
+      main.off {
+        transform: translateY(-200px);
+        opacity: 0;
+        pointer-events: none;
+      }
+    </style>
   </head>
   <body style="background: black">
+    <main>
+      <h1>Snake</h1>
+      <h3>Best Score: <span>0</span></h3>
+
+      <button>Play Again</button>
+    </main>
     <canvas></canvas>
 
     <script src="app.js" type="module"></script>

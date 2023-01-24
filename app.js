@@ -23,7 +23,6 @@ function createPlayer() {
           y: 100,
         },
         direction: 'right',
-        imageSrc: 'Graphics/head_up.png',
       })
     )
   }
@@ -59,8 +58,8 @@ start = setInterval(() => {
 
   player.forEach((block) => {
     if (
-      block.position.x === food.position.x &&
-      block.position.y === food.position.y
+      player[0].position.x === food.position.x &&
+      player[0].position.y === food.position.y
     ) {
       player.push(
         new Block({
@@ -68,13 +67,19 @@ start = setInterval(() => {
             x: player[player.length - 1].position.x,
             y: player[player.length - 1].position.y,
           },
-          imageSrc: 'Graphics/tail_down.png',
         })
       )
+      food = makeFood()
+    } else if (
+      block.position.x === food.position.x &&
+      block.position.y === food.position.y
+    ) {
       food = makeFood()
     }
   })
   food.draw()
+
+  determineImage(player)
 
   player.forEach((block) => {
     if (block.position.x >= canvas.width) {
@@ -144,4 +149,11 @@ window.addEventListener('keydown', (e) => {
       pressed = 0
       break
   }
+})
+
+const menu = document.querySelector('main')
+const btn = document.querySelector('button')
+
+btn.addEventListener('click', () => {
+  menu.classList.add('off')
 })

@@ -23,4 +23,75 @@ export function drawGrid() {
   }
 }
 
-export function determineImage(player) {}
+export function determineImage(player) {
+  switch (player[0].direction) {
+    case 'right':
+      player[0].image.src = 'Graphics/head_right.png'
+      break
+
+    case 'left':
+      player[0].image.src = 'Graphics/head_left.png'
+      break
+    case 'top':
+      player[0].image.src = 'Graphics/head_up.png'
+      break
+
+    case 'down':
+      player[0].image.src = 'Graphics/head_down.png'
+      break
+  }
+
+  for (let i = 1; i < player.length; i++) {
+    if (
+      (player[i].direction === 'right' &&
+        player[i - 1].direction === 'right') ||
+      (player[i].direction === 'left' && player[i - 1].direction === 'left')
+    ) {
+      player[i].image.src = 'Graphics/body_horizontal.png'
+    } else if (
+      (player[i].direction === 'top' && player[i - 1].direction === 'top') ||
+      (player[i].direction === 'down' && player[i - 1].direction === 'down')
+    ) {
+      player[i].image.src = 'Graphics/body_vertical.png'
+    } else if (
+      (player[i].direction === 'top' && player[i - 1].direction === 'right') ||
+      (player[i].direction === 'left' && player[i - 1].direction === 'down')
+    ) {
+      player[i].image.src = 'Graphics/body_bottomright.png'
+    } else if (
+      (player[i].direction === 'top' && player[i - 1].direction === 'left') ||
+      (player[i].direction === 'right' && player[i - 1].direction === 'down')
+    ) {
+      player[i].image.src = 'Graphics/body_bottomleft.png'
+    } else if (
+      (player[i].direction === 'down' && player[i - 1].direction === 'left') ||
+      (player[i].direction === 'right' && player[i - 1].direction === 'top')
+    ) {
+      player[i].image.src = 'Graphics/body_topleft.png'
+    } else if (
+      (player[i].direction === 'down' && player[i - 1].direction === 'right') ||
+      (player[i].direction === 'left' && player[i - 1].direction === 'top')
+    ) {
+      player[i].image.src = 'Graphics/body_topright.png'
+    }
+  }
+
+  switch (player[player.length - 1].direction) {
+    case 'right':
+      player[player.length - 1].image.src = 'Graphics/tail_left.png'
+      break
+
+    case 'left':
+      player[player.length - 1].image.src = 'Graphics/tail_right.png'
+      break
+    case 'top':
+      player[player.length - 1].image.src = 'Graphics/tail_down.png'
+      break
+
+    case 'down':
+      player[player.length - 1].image.src = 'Graphics/tail_up.png'
+      break
+  }
+
+  return player
+}
