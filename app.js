@@ -1,4 +1,4 @@
-import { drawGrid } from './utils.js'
+import { drawGrid, determineImage } from './utils.js'
 import { Block } from './class.js'
 
 const canvas = document.querySelector('canvas')
@@ -9,7 +9,8 @@ canvas.height = 500
 
 let food,
   player = [],
-  direction = 'right'
+  direction = 'right',
+  pressed = 1
 
 const size = canvas.width / 10
 
@@ -22,7 +23,7 @@ function createPlayer() {
           y: 100,
         },
         direction: 'right',
-        color: 'blue',
+        imageSrc: 'Graphics/head_up.png',
       })
     )
   }
@@ -36,16 +37,17 @@ function makeFood() {
       x: Math.floor(Math.random() * 10) * size,
       y: Math.floor(Math.random() * 10) * size,
     },
-    color: 'orange',
+    imageSrc: 'Graphics/apple.png',
   })
 }
 
 food = makeFood()
 
-let ix = 0
 let start = undefined
 
 start = setInterval(() => {
+  pressed++
+
   c.fillStyle = 'black'
   c.fillRect(0, 0, canvas.width, canvas.height)
 
@@ -54,6 +56,25 @@ start = setInterval(() => {
   }
 
   player[0].direction = direction
+
+  player.forEach((block) => {
+    if (
+      block.position.x === food.position.x &&
+      block.position.y === food.position.y
+    ) {
+      player.push(
+        new Block({
+          position: {
+            x: player[player.length - 1].position.x,
+            y: player[player.length - 1].position.y,
+          },
+          imageSrc: 'Graphics/tail_down.png',
+        })
+      )
+      food = makeFood()
+    }
+  })
+  food.draw()
 
   player.forEach((block) => {
     if (block.position.x >= canvas.width) {
@@ -84,45 +105,43 @@ start = setInterval(() => {
     block.draw()
   })
 
-  for (let i = 0; i < player.length; i++) {
-    for (let y = i + 1; y < player.length; y++) {
-      if (
-        player[i].position.x === player[y].position.x &&
-        player[i].position.y === player[y].position.y
-      ) {
-        resetGame()
-      }
+  for (let i = 1; i < player.length; i++) {
+    let head = player[0]
+    if (
+      head.position.x === player[i].position.x &&
+      head.position.y === player[i].position.y
+    ) {
+      resetGame()
     }
   }
 
-  // food.draw()
-
   drawGrid()
-  ix++
 }, 200)
 
 function resetGame() {
   console.log('resetGame')
 }
 
-// DO NAPRAWIENIA -- JAK KLIKNIESZ SZYBKO I INTERVAL SIE NIE ZROBI TO MOZNA NADAL SIE COFAC
-
 window.addEventListener('keydown', (e) => {
   switch (e.key) {
     case 'w':
-      if (direction !== 'down') direction = 'top'
+      if (direction !== 'down' && pressed) direction = 'top'
+      pressed = 0
       break
 
     case 's':
-      if (direction !== 'top') direction = 'down'
+      if (direction !== 'top' && pressed) direction = 'down'
+      pressed = 0
       break
 
     case 'd':
-      if (direction !== 'left') direction = 'right'
+      if (direction !== 'left' && pressed) direction = 'right'
+      pressed = 0
       break
 
     case 'a':
-      if (direction !== 'right') direction = 'left'
+      if (direction !== 'right' && pressed) direction = 'left'
+      pressed = 0
       break
   }
 })

@@ -22,3 +22,5 @@ export function drawGrid() {
     c.stroke()
   }
 }
+
+export function determineImage(player) {}
