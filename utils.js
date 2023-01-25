@@ -76,7 +76,7 @@ export function determineImage(player) {
     }
   }
 
-  switch (player[player.length - 1].direction) {
+  switch (player[player.length - 2].direction) {
     case 'right':
       player[player.length - 1].image.src = 'Graphics/tail_left.png'
       break
